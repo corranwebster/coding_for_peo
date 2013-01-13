@@ -1,7 +1,9 @@
 <html>
 <script>
-var height = 9;
-var width = 10;
+// size of the billiard table (change these to change the grid)
+var height = 10;
+var width = 5;
+// size of one square in pixels (make this smaller for really big tables)
 var scale = 32;
 
 function draw_box() {
@@ -36,33 +38,37 @@ function draw_box() {
     context.stroke();
 }
 
+// the location of the billiard ball
 var x = 0;
 var y = height;
+
+// the direction the billiard ball is travelling
 var dx = 1;
 var dy = -1;
 
 function bounce() {
     var grid = document.getElementById("grid");
     var context = grid.getContext("2d");
-    
-    console.log(x);
-    console.log(y);
-    console.log(dx);
-    console.log(dy);
-    
+
+    // are we in a corner?  If so then do nothing    
     if (((x == width) && (y == 0)) || ((x == width) && (y == height)) ||
             ((x==0) && (y==0))) {
             console
         return;
     }
+    
+    // draw the next segment of the line
     context.beginPath();
     context.moveTo((x+1)*scale+0.5, (y+1)*scale+0.5);
     context.lineTo((x+dx+1)*scale+0.5, (y+dy+1)*scale+0.5);
     context.strokeStyle = "#f00";
     context.stroke();
     
+    // update the position
     x += dx;
     y += dy;
+    
+    // update the direction of travel, if needed
     if (x == width || x == 0) {
         dx = -dx;
     }
@@ -77,9 +83,11 @@ function bounce() {
 <p>Click on the grid to show the path of the billiard ball.</p>
 <p><canvas id="grid" height="512" width="512" onclick='bounce()'></p>
 <p>This script helps with the exercises from the first couple of chapters of
-<cite>Mathematics - A Human Endeavor</cite> by Harold R. Jacobs.  To change the
-size of the grid, edit the code for this page, change the height and width, and
-then reload.</p>
+<a href="http://books.google.com/books/about/Mathematics_A_Human_Endeavor.html?id=zO4ApMb3B8QC"><cite>Mathematics
+- A Human Endeavor</cite> by Harold R. Jacobs</a>.</p>
+
+<p>To change the size of the grid, edit the code for this page, change the height and width, and
+then reload the page.</p>
 </body>
 </html>
 
