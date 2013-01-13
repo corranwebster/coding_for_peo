@@ -1,0 +1,87 @@
+<html>
+<script>
+var height = 9;
+var width = 10;
+var scale = 32;
+
+function draw_box() {
+    var grid = document.getElementById("grid");
+    
+    grid.width = (width+2)*scale;
+    grid.height = (height+2)*scale;
+    
+    var context = grid.getContext("2d");
+
+    // draw grid
+    context.beginPath();
+    for (i=1; i < width; i++) {
+        context.moveTo(0.5+(i+1)*scale, scale + 0.5);
+        context.lineTo(0.5+(i+1)*scale, (height+1)*scale+0.5);
+    }
+    for (i=1; i < height; i++) {
+        context.moveTo(scale+0.5, 0.5+(i+1)*scale);
+        context.lineTo((width+1)*scale+0.5, 0.5+(i+1)*scale);
+    }
+    context.strokeStyle = "#eee";
+    context.stroke();
+    
+    // draw box
+    context.beginPath();
+    context.moveTo(scale+0.5, scale+0.5);
+    context.lineTo((width+1)*scale+0.5, scale+0.5);
+    context.lineTo((width+1)*scale+0.5, (height+1)*scale+0.5);
+    context.lineTo(scale+0.5, (height+1)*scale+0.5);
+    context.lineTo(scale+0.5, scale+0.5);
+    context.strokeStyle = "#000";
+    context.stroke();
+}
+
+var x = 0;
+var y = height;
+var dx = 1;
+var dy = -1;
+
+function bounce() {
+    var grid = document.getElementById("grid");
+    var context = grid.getContext("2d");
+    
+    console.log(x);
+    console.log(y);
+    console.log(dx);
+    console.log(dy);
+    
+    if (((x == width) && (y == 0)) || ((x == width) && (y == height)) ||
+            ((x==0) && (y==0))) {
+            console
+        return;
+    }
+    context.beginPath();
+    context.moveTo((x+1)*scale+0.5, (y+1)*scale+0.5);
+    context.lineTo((x+dx+1)*scale+0.5, (y+dy+1)*scale+0.5);
+    context.strokeStyle = "#f00";
+    context.stroke();
+    
+    x += dx;
+    y += dy;
+    if (x == width || x == 0) {
+        dx = -dx;
+    }
+    if (y == height || y == 0) {
+        dy = -dy;
+    }
+}
+
+</script>
+<body onload='draw_box();return false;'>
+<h1>Billiards</h1>
+<p>Click on the grid to show the path of the billiard ball.</p>
+<p><canvas id="grid" height="512" width="512" onclick='bounce()'></p>
+<p>This script helps with the exercises from the first couple of chapters of
+<cite>Mathematics - A Human Endeavor</cite> by Harold R. Jacobs.  To change the
+size of the grid, edit the code for this page, change the height and width, and
+then reload.</p>
+</body>
+</html>
+
+
+
